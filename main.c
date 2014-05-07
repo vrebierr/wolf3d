@@ -63,14 +63,16 @@ int		key_hook(int keycode, void *param)
 int		main(int argc, char **argv)
 {
 	t_mlx	mlx;
+	char	**map;
 
 	if (argc != 2)
 		show_usage();
-	get_map(argv[1]);
+	map = get_map(argv[1]);
 	mlx.mlx = mlx_init();
 	mlx.win = mlx_new_window(mlx.mlx, WIDTH, HEIGHT, "Wolf3d");
 	mlx_expose_hook(mlx.win, expose_hook, &mlx);
 	mlx_key_hook(mlx.win, key_hook, &mlx);
+	raycasting(pos_init(), map);
 	mlx_loop(mlx.mlx);
 	return (0);
 }
