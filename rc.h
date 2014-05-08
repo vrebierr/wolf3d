@@ -63,5 +63,6 @@ typedef struct	s_dda
 
 t_pos			*pos_init(void);
 void			raycasting(t_pos *pos, char **map);
+void			draw(t_dda *dda, t_mlx *mlx, int x);
 
 #endif
