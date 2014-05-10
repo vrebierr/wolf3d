@@ -22,12 +22,12 @@ void	draw(t_dda *dda, t_mlx *mlx, int x)
 	start = -height / 2 + HEIGHT / 2;
 	if (start < 0)
 		start = 0;
-	end = height / 2 + h / 2;
+	end = height / 2 + HEIGHT / 2;
 	if (end >= HEIGHT)
-		enf = HEIGHT - 1;
+		end = HEIGHT - 1;
 	while (start < end)
 	{
-		mlx_pixel_put(mlx->mlx, mlx->win, x, start);
+		mlx_pixel_put(mlx->mlx, mlx->win, x, start, 200);
 		start++;
 	}
 }

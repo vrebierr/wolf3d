@@ -89,7 +89,7 @@ static void		perform(t_dda *dda, char **map, t_ray *ray)
 			dda->map_y = dda->step_y;
 			dda->side = 1;
 		}
-		if ((int)map[dda->map_x][dda->map_y] - 48 > 0)
+		if (map[dda->map_y][dda->map_x] > '0')
 			dda->hit = 1;
 	}
 	if (dda->side == 0)
@@ -104,6 +104,7 @@ void			raycasting(t_pos *pos, char **map, t_mlx *mlx)
 {
 	int		x;
 	t_ray	ray;
+	t_dda	*dda;
 
 	x = 0;
 	while (x < WIDTH)
@@ -113,7 +114,8 @@ void			raycasting(t_pos *pos, char **map, t_mlx *mlx)
 		ray.pos_y = pos->pos_y;
 		ray.dir_x = pos->dir_x + pos->plane_x * ray.camera_x;
 		ray.dir_y = pos->dir_y + pos->plane_y * ray.camera_x;
-		perform(dda_init(&ray), map, &ray);
+		dda = dda_init(&ray);
+		perform(dda, map, &ray);
 		draw(dda, mlx, x);
 		x++;
 	}

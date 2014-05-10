@@ -18,6 +18,23 @@ void	show_error(char *msg)
 	exit(1);
 }
 
+char	**tab_create(int y, int x)
+{
+	char	**tab;
+	char	*tab2;
+	int		i;
+
+	tab = (char **)malloc(sizeof(char *) * x);
+	tab2 = (char *)malloc(sizeof(char) * y * x);
+	i = 0;
+	while (i < y)
+	{
+		tab[i] = &tab2[i * x];
+		i++;
+	}
+	return (tab);
+}
+
 char	**get_map(char *file)
 {
 	int		ret;
@@ -28,14 +45,18 @@ char	**get_map(char *file)
 	if ((fd = open(file, O_RDONLY)) == -1)
 		show_error("open");
 	ret = 1;
-	map = (char **)malloc(sizeof(char *) * 24 + 1);
+	map = tab_create(24, 24);
 	while (ret)
 	{
 		ret = get_next_line(fd, &line);
 		if (ret == -1)
 			break ;
-		*map = ft_strnew(ft_strlen(line));
-		ft_strcpy(*map, line);
+		while (*line)
+		{
+			**map = *line;
+			(**map)++;
+			line++;
+		}
 		(*map)++;
 	}
 	return (map);
@@ -72,7 +93,7 @@ int		main(int argc, char **argv)
 	mlx.win = mlx_new_window(mlx.mlx, WIDTH, HEIGHT, "Wolf3d");
 	mlx_expose_hook(mlx.win, expose_hook, &mlx);
 	mlx_key_hook(mlx.win, key_hook, &mlx);
-	raycasting(pos_init(), map);
+	raycasting(pos_init(), map, &mlx);
 	mlx_loop(mlx.mlx);
 	return (0);
 }

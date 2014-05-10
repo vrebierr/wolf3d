@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 NAME = wolf3d
-SRC = main.c rc.c
+SRC = main.c rc.c draw.c
 OBJS = $(SRC:.c=.o)
 FLAGS = -Wall -Werror -Wextra -O3 -g
 LFLAGS = -L $(LDIR) -lft
