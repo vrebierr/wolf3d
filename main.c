@@ -77,22 +77,23 @@ int		expose_hook(void *param)
 	return (0);
 }
 
-int		key_hook(int keycode, void *param)
+int		key_hook(int keycode, void *pos)
 {
 	if (keycode == UP)
-		key_up();
+		key_up(pos);
 	else if (keycode == DOWN)
-		key_down();
+		key_down(pos);
 	else if (keycode == LEFT)
-		key_left();
+		key_left(pos);
 	else if (keycode == RIGHT)
-		key_right();
+		key_right(pos);
 	return (0);
 }
 
 int		main(int argc, char **argv)
 {
 	t_mlx	mlx;
+	t_pos	*pos;
 	char	**map;
 
 	if (argc != 2)
@@ -100,9 +101,10 @@ int		main(int argc, char **argv)
 	map = get_map(argv[1]);
 	mlx.mlx = mlx_init();
 	mlx.win = mlx_new_window(mlx.mlx, WIDTH, HEIGHT, "Wolf3d");
+	pos = pos_init();
 	mlx_expose_hook(mlx.win, expose_hook, &mlx);
-	mlx_key_hook(mlx.win, key_hook, &mlx);
-	raycasting(pos_init(), map, &mlx);
+	mlx_key_hook(mlx.win, key_hook, &pos);
+	raycasting(pos, map, &mlx);
 	mlx_loop(mlx.mlx);
 	return (0);
 }
