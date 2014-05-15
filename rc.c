@@ -61,8 +61,8 @@ static t_dda	*dda_init(t_ray *ray)
 	dda = (t_dda *)malloc(sizeof(t_dda));
 	if (dda != NULL)
 	{
-		dda->map_x = (int)ray->pos_x;
-		dda->map_y = (int)ray->pos_y;
+		dda->map_x = ((int)ray->pos_x);
+		dda->map_y = ((int)ray->pos_y);
 		dda->delta_dist_x = sqrt(1 + (ray->dir_y * ray->dir_y)
 								/ (ray->dir_x * ray->dir_x));
 		dda->delta_dist_y = sqrt(1 + (ray->dir_x * ray->dir_x)
@@ -86,10 +86,10 @@ static void		perform(t_dda *dda, char **map, t_ray *ray)
 		else
 		{
 			dda->side_dist_y += dda->delta_dist_y;
-			dda->map_y = dda->step_y;
+			dda->map_y += dda->step_y;
 			dda->side = 1;
 		}
-		if (map[dda->map_y][dda->map_x] > '0')
+		if (map[dda->map_x][dda->map_y] > '0')
 			dda->hit = 1;
 	}
 	if (dda->side == 0)
@@ -109,6 +109,7 @@ void			raycasting(t_pos *pos, char **map, t_mlx *mlx)
 	x = 0;
 	while (x < WIDTH)
 	{
+		ft_putnbr(x);
 		ray.camera_x = 2 * x / (double)WIDTH;
 		ray.pos_x = pos->pos_x;
 		ray.pos_y = pos->pos_y;

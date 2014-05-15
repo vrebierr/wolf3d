@@ -41,23 +41,26 @@ char	**get_map(char *file)
 	char	**map;
 	int		fd;
 	char	*line;
+	int		i;
+	int		j;
 
 	if ((fd = open(file, O_RDONLY)) == -1)
 		show_error("open");
 	ret = 1;
 	map = tab_create(24, 24);
+	i = 0;
 	while (ret)
 	{
 		ret = get_next_line(fd, &line);
 		if (ret == -1)
 			break ;
-		while (*line)
+		j = 0;
+		while (line[j])
 		{
-			**map = *line;
-			(**map)++;
-			line++;
+			map[i][j] = line[j];
+			j++;
 		}
-		(*map)++;
+		i++;
 	}
 	return (map);
 }
@@ -76,8 +79,14 @@ int		expose_hook(void *param)
 
 int		key_hook(int keycode, void *param)
 {
-	(void)keycode;
-	(void)param;
+	if (keycode == UP)
+		key_up();
+	else if (keycode == DOWN)
+		key_down();
+	else if (keycode == LEFT)
+		key_left();
+	else if (keycode == RIGHT)
+		key_right();
 	return (0);
 }
 

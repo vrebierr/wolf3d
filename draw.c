@@ -12,6 +12,11 @@
 
 #include "rc.h"
 
+void	pixel_put_to_image(t_mlx *mlx, int x, int y, int color)
+{
+	mlx_pixel_put(mlx->mlx, mlx->win, x, y, color);
+}
+
 void	draw(t_dda *dda, t_mlx *mlx, int x)
 {
 	int		height;
@@ -27,7 +32,7 @@ void	draw(t_dda *dda, t_mlx *mlx, int x)
 		end = HEIGHT - 1;
 	while (start < end)
 	{
-		mlx_pixel_put(mlx->mlx, mlx->win, x, start, 200);
+		pixel_put_to_image(mlx, x, start, 200);
 		start++;
 	}
 }
