@@ -45,7 +45,7 @@ int				get_dist_wall(t_pos *pos, char **map)
 	int		xa;
 	int		ya;
 
-	while (map[])
+	while (map[pos->y ])
 	if (pos->rotation > 0)
 	{
 		y = ceil(pos->y / CUBE) * CUBE - 1;
