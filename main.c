@@ -87,6 +87,8 @@ int		key_hook(int keycode, void *pos)
 		key_left(pos);
 	else if (keycode == RIGHT)
 		key_right(pos);
+	else if (keycode == ESCAPE)
+		exit(0);
 	return (0);
 }
 
@@ -101,10 +103,10 @@ int		main(int argc, char **argv)
 	map = get_map(argv[1]);
 	mlx.mlx = mlx_init();
 	mlx.win = mlx_new_window(mlx.mlx, WIDTH, HEIGHT, "Wolf3d");
-	pos = pos_init();
+	pos = pos_init(map);
 	mlx_expose_hook(mlx.win, expose_hook, &mlx);
 	mlx_key_hook(mlx.win, key_hook, &pos);
-	raycasting(pos, map, &mlx);
+	raycasting(pos, &mlx);
 	mlx_loop(mlx.mlx);
 	return (0);
 }

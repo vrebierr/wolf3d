@@ -43,6 +43,7 @@ typedef struct	s_ray
 
 typedef struct	s_pos
 {
+	char		**map;
 	double		pos_x;
 	double		pos_y;
 	double		dir_x;
@@ -66,8 +67,12 @@ typedef struct	s_dda
 	int			side;
 }				t_dda;
 
-t_pos			*pos_init(void);
-void			raycasting(t_pos *pos, char **map, t_mlx *mlx);
+t_pos			*pos_init(char **map);
+void			raycasting(t_pos *pos, t_mlx *mlx);
 void			draw(t_dda *dda, t_mlx *mlx, int x);
+void			key_up(t_pos *pos);
+void			key_down(t_pos *pos);
+void			key_left(t_pos *pos);
+void			key_right(t_pos *pos);
 
 #endif

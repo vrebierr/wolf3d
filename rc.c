@@ -12,13 +12,14 @@
 
 #include "rc.h"
 
-t_pos			*pos_init(void)
+t_pos			*pos_init(char **map)
 {
 	t_pos	*pos;
 
 	pos = (t_pos *)malloc(sizeof(t_pos));
 	if (pos != NULL)
 	{
+		pos->map = map;
 		pos->pos_x = 22;
 		pos->pos_y = 12;
 		pos->dir_x = -1;
@@ -73,7 +74,7 @@ static t_dda	*dda_init(t_ray *ray)
 	return (dda);
 }
 
-static void		perform(t_dda *dda, char **map, t_ray *ray)
+static void		perform(t_dda *dda, t_pos *pos, t_ray *ray)
 {
 	while (dda->hit == 0)
 	{
@@ -89,7 +90,7 @@ static void		perform(t_dda *dda, char **map, t_ray *ray)
 			dda->map_y += dda->step_y;
 			dda->side = 1;
 		}
-		if (map[dda->map_x][dda->map_y] > '0')
+		if (pos->map[dda->map_x][dda->map_y] > '0')
 			dda->hit = 1;
 	}
 	if (dda->side == 0)
@@ -100,7 +101,7 @@ static void		perform(t_dda *dda, char **map, t_ray *ray)
 									+ (1 - dda->step_y) / 2) / ray->dir_y);
 }
 
-void			raycasting(t_pos *pos, char **map, t_mlx *mlx)
+void			raycasting(t_pos *pos, t_mlx *mlx)
 {
 	int		x;
 	t_ray	ray;
@@ -109,14 +110,13 @@ void			raycasting(t_pos *pos, char **map, t_mlx *mlx)
 	x = 0;
 	while (x < WIDTH)
 	{
-		ft_putnbr(x);
 		ray.camera_x = 2 * x / (double)WIDTH;
 		ray.pos_x = pos->pos_x;
 		ray.pos_y = pos->pos_y;
 		ray.dir_x = pos->dir_x + pos->plane_x * ray.camera_x;
 		ray.dir_y = pos->dir_y + pos->plane_y * ray.camera_x;
 		dda = dda_init(&ray);
-		perform(dda, map, &ray);
+		perform(dda, pos, &ray);
 		draw(dda, mlx, x);
 		x++;
 	}
