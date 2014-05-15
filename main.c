@@ -12,6 +12,12 @@
 
 #include "rc.h"
 
+void	show_error(char *msg)
+{
+	perror(msg);
+	exit(1);
+}
+
 char	**tab_create(int y, int x)
 {
 	char	**tab;
@@ -39,7 +45,7 @@ char	**get_map(char *file)
 	int		j;
 
 	if ((fd = open(file, O_RDONLY)) == -1)
-		perror("open");
+		show_error("open");
 	ret = 1;
 	map = tab_create(24, 24);
 	i = 0;
@@ -84,36 +90,19 @@ int		key_hook(int keycode, void *param)
 	return (0);
 }
 
-t_pos	*pos_init(void)
-{
-	t_pos	*pos;
-
-	pos = (t_pos *)malloc(sizeof(t_pos));
-	if (pos != NULL)
-	{
-		pos->x = 22;
-		pos->y = 21;
-		pos->rotation = 0;
-		pos->dist_plane = (H / 2) / tan(FOV / 2);
-	}
-	return (pos);
-}
-
 int		main(int argc, char **argv)
 {
 	t_mlx	mlx;
 	char	**map;
-	t_pos	*pos;
 
 	if (argc != 2)
 		show_usage();
 	map = get_map(argv[1]);
-	pos = pos_init();
 	mlx.mlx = mlx_init();
-	mlx.win = mlx_new_window(mlx.mlx, W, H, "Wolf3d");
+	mlx.win = mlx_new_window(mlx.mlx, WIDTH, HEIGHT, "Wolf3d");
 	mlx_expose_hook(mlx.win, expose_hook, &mlx);
 	mlx_key_hook(mlx.win, key_hook, &mlx);
-	raycasting(pos, map, &mlx);
+	raycasting(pos_init(), map, &mlx);
 	mlx_loop(mlx.mlx);
 	return (0);
 }
