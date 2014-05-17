@@ -28,12 +28,13 @@ typedef struct	s_mlx
 
 typedef struct	s_pos
 {
-	double		x;
-	double		y;
+	char		**map;
+	int			x;
+	int			y;
 	int			rotation;
 	int			dist_plane;
 }				t_pos;
 
-void			raycasting(t_pos *pos, char **map, t_mlx *mlx);
+void			raycasting(t_pos *pos, t_mlx *mlx);
 
 #endif

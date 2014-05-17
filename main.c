@@ -11,6 +11,9 @@
 /* ************************************************************************** */
 
 #include "rc.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <fcntl.h>
 
 char	**tab_create(int y, int x)
 {
@@ -75,17 +78,18 @@ int		key_hook(int keycode, void *param)
 	return (0);
 }
 
-t_pos	*pos_init(void)
+t_pos	*pos_init(char **map)
 {
 	t_pos	*pos;
 
 	pos = (t_pos *)malloc(sizeof(t_pos));
 	if (pos != NULL)
 	{
-		pos->x = 22;
-		pos->y = 21;
-		pos->rotation = 0;
-		pos->dist_plane = (H / 2) / tan(FOV / 2);
+		pos->x = 22 * CUBE;
+		pos->y = 21 * CUBE;
+		pos->rotation = 180;
+		pos->dist_plane = (W / 2) / tan(FOV / 2);
+		pos->map = map;
 	}
 	return (pos);
 }
@@ -99,12 +103,12 @@ int		main(int argc, char **argv)
 	if (argc != 2)
 		show_usage();
 	map = get_map(argv[1]);
-	pos = pos_init();
+	pos = pos_init(map);
 	mlx.mlx = mlx_init();
 	mlx.win = mlx_new_window(mlx.mlx, W, H, "Wolf3d");
 	mlx_expose_hook(mlx.win, expose_hook, &mlx);
 	mlx_key_hook(mlx.win, key_hook, &mlx);
-	raycasting(pos, map, &mlx);
+	raycasting(pos, &mlx);
 	mlx_loop(mlx.mlx);
 	return (0);
 }

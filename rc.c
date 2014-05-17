@@ -38,40 +38,44 @@ void			draw_line(int wall_h, int x, t_mlx *mlx)
 	}
 }
 
-int				get_dist_wall(t_pos *pos, char **map)
+int				dist_to_wall(t_pos *pos)
 {
-	int		x;
-	int		y;
-	int		xa;
-	int		ya;
+	int		ay;
+	int		ax;
+	int		ray_x;
+	int		ray_y;
+	int		i;
 
-	while (map[pos->y ])
-	if (pos->rotation > 0)
-	{
-		y = ceil(pos->y / CUBE) * CUBE - 1;
-		ya = - CUBE;
-	}
+	ray_x = pos->x;
+	ray_y = pos->y;
+	if (pos->rotation >= 0)
+		ay = ray_x / 64 * 64 - 1;
 	else
+		ay = ray_x / 64 * 64 + 64;
+	ax = ray_x + (ray_x - ay) / tan(FOV);
+	ft_putnbr(ay / 64);
+	i = 1;
+	while (pos->map[ray_y / CUBE][ray_x / CUBE] != '0')
 	{
-		y = ceil(pos->y / CUBE) * CUBE + 64;
-		ya = CUBE;
+		ray_y = ray_y + ay * i;
+		ray_x = ray_x + ax * i;
+		ft_putnbr(ray_x / 64);
+		i++;
 	}
-	x = pos->x + (pos->y - y) / tan(FOV);
-	xa = CUBE / tan(FOV);
+	return (0);
 }
 
-void			raycasting(t_pos *pos, char **map, t_mlx *mlx)
+void			raycasting(t_pos *pos, t_mlx *mlx)
 {
 	int		x;
-	int		wall_h;
-	int		dist_wall;
+	int		wall_dist;
 
+	(void)mlx;
 	x = 0;
 	while (x < W)
 	{
-		dist_wall = get_dist_wall(pos, x);
-		wall_h = CUBE / dist_wall * pos->dist_plane;
-		draw_line(wall_h, x, mlx);
+		wall_dist = dist_to_wall(pos);
+		draw_line(CUBE / wall_dist * pos->dist_plane, x, mlx);
 		x++;
 	}
 }
