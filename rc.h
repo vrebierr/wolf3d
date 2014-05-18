@@ -12,8 +12,8 @@
 
 #ifndef RC_H
 # define RC_H
-# define WIDTH 1024
-# define HEIGHT 768
+# define WIDTH 2000
+# define HEIGHT 2000
 # define LEFT 65361
 # define RIGHT 65363
 # define UP 65362

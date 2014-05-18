@@ -44,8 +44,8 @@ static t_dda	*dda_init(t_ray *ray)
 	dda = (t_dda *)malloc(sizeof(t_dda));
 	if (dda != NULL)
 	{
-		dda->map_x = (int)ray->pos_x;
-		dda->map_y = (int)ray->pos_y;
+		dda->map_x = ray->pos_x;
+		dda->map_y = ray->pos_y;
 		dda->delta_dist_x = sqrt(1 + (ray->dir_y * ray->dir_y)
 								/ (ray->dir_x * ray->dir_x));
 		dda->delta_dist_y = sqrt(1 + (ray->dir_x * ray->dir_x)
@@ -60,7 +60,7 @@ static void		dist_to_wall(t_dda *dda, t_pos *pos, t_ray *ray)
 {
 	while (dda->hit == 0)
 	{
-		if (dda->side_dist_x < dda->delta_dist_y)
+		if (dda->side_dist_x < dda->side_dist_y)
 		{
 			dda->side_dist_x += dda->delta_dist_x;
 			dda->map_x += dda->step_x;
@@ -72,7 +72,7 @@ static void		dist_to_wall(t_dda *dda, t_pos *pos, t_ray *ray)
 			dda->map_y += dda->step_y;
 			dda->side = 1;
 		}
-		if (pos->map[dda->map_x][dda->map_y] > '0')
+		if (pos->map[dda->map_x][dda->map_y] != '0')
 			dda->hit = 1;
 	}
 	if (dda->side == 0)
@@ -92,7 +92,7 @@ void			raycasting(t_pos *pos)
 	x = 0;
 	while (x < WIDTH)
 	{
-		ray.camera_x = 2 * x / (double)WIDTH - 1;
+		ray.camera_x = 2 * x / (double)(WIDTH) - 1;
 		ray.pos_x = pos->pos_x;
 		ray.pos_y = pos->pos_y;
 		ray.dir_x = pos->dir_x + pos->plane_x * ray.camera_x;

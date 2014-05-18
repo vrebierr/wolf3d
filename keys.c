@@ -46,7 +46,7 @@ static void	key_left(t_pos *pos)
 	pos->dir_y = old_dir * sin(0.5) + pos->dir_y * cos(0.5);
 	old_plane = pos->plane_x;
 	pos->plane_x = pos->plane_x * cos(0.5) - pos->plane_y * sin(0.5);
-	pos->plane_y = old_plane * sin(1) + pos->plane_y * cos(0.5);
+	pos->plane_y = old_plane * sin(0.5) + pos->plane_y * cos(0.5);
 }
 
 static void	key_right(t_pos *pos)
@@ -64,6 +64,7 @@ static void	key_right(t_pos *pos)
 
 int			key_hook(int keycode, t_pos *pos)
 {
+	printf("x = %f y = %f\n", pos->pos_x, pos->pos_y);
 	if (keycode == UP)
 		key_up(pos);
 	else if (keycode == DOWN)

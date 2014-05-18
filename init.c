@@ -40,11 +40,11 @@ t_pos			*pos_init(char **map)
 	if (pos != NULL)
 	{
 		pos->map = map;
-		pos->pos_x = 22;
-		pos->pos_y = 12;
+		pos->pos_x = 2;
+		pos->pos_y = 2;
 		pos->dir_x = -1;
-		pos->dir_y = 0.2;
-		pos->plane_x = 0.50;
+		pos->dir_y = 0;
+		pos->plane_x = 0;
 		pos->plane_y = 0.66;
 		pos->mlx = ft_mlx_init();
 	}
