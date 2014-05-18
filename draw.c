@@ -17,7 +17,6 @@ void	pixel_put_to_image(t_mlx *mlx, int x, int y, int color)
 	t_img	*img;
 
 	img = mlx->img;
-
 	if (!mlx->img->endian)
 	{
 		img->data[(y * img->sizeline) + x * (img->bpp / 8)] = color;

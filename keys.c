@@ -12,7 +12,7 @@
 
 #include "rc.h"
 
-void	key_up(t_pos *pos)
+static void	key_up(t_pos *pos)
 {
 	int		tmp;
 
@@ -24,7 +24,7 @@ void	key_up(t_pos *pos)
 		pos->pos_y += pos->dir_y * 0.5;
 }
 
-void	key_down(t_pos *pos)
+static void	key_down(t_pos *pos)
 {
 	int		tmp;
 
@@ -36,7 +36,7 @@ void	key_down(t_pos *pos)
 		pos->pos_y -= pos->dir_y * 0.5;
 }
 
-void	key_left(t_pos *pos)
+static void	key_left(t_pos *pos)
 {
 	double	old_dir;
 	double	old_plane;
@@ -46,10 +46,10 @@ void	key_left(t_pos *pos)
 	pos->dir_y = old_dir * sin(0.5) + pos->dir_y * cos(0.5);
 	old_plane = pos->plane_x;
 	pos->plane_x = pos->plane_x * cos(0.5) - pos->plane_y * sin(0.5);
-	pos->plane_y = old_plane * sin(0.5) + pos->plane_y * cos(0.5);
+	pos->plane_y = old_plane * sin(1) + pos->plane_y * cos(0.5);
 }
 
-void	key_right(t_pos *pos)
+static void	key_right(t_pos *pos)
 {
 	double	old_dir;
 	double	old_plane;
@@ -60,4 +60,19 @@ void	key_right(t_pos *pos)
 	old_plane = pos->plane_x;
 	pos->plane_x = pos->plane_x * cos(-0.5) - pos->plane_y * sin(-0.5);
 	pos->plane_y = old_plane * sin(-0.5) + pos->plane_y * cos(-0.5);
+}
+
+int			key_hook(int keycode, t_pos *pos)
+{
+	if (keycode == UP)
+		key_up(pos);
+	else if (keycode == DOWN)
+		key_down(pos);
+	else if (keycode == LEFT)
+		key_left(pos);
+	else if (keycode == RIGHT)
+		key_right(pos);
+	else if (keycode == ESCAPE)
+		exit(0);
+	return (0);
 }

@@ -12,8 +12,8 @@
 
 #ifndef RC_H
 # define RC_H
-# define WIDTH 500
-# define HEIGHT 500
+# define WIDTH 1024
+# define HEIGHT 768
 # define LEFT 65361
 # define RIGHT 65363
 # define UP 65362
@@ -79,11 +79,10 @@ typedef struct	s_dda
 }				t_dda;
 
 t_pos			*pos_init(char **map);
+char			**get_map(int fd);
 void			raycasting(t_pos *pos);
 void			draw(t_dda *dda, t_mlx *mlx, int x);
-void			key_up(t_pos *pos);
-void			key_down(t_pos *pos);
-void			key_left(t_pos *pos);
-void			key_right(t_pos *pos);
+int				key_hook(int keycode, t_pos *pos);
+void			show_error(char *msg);
 
 #endif
