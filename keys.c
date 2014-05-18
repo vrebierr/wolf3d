@@ -64,7 +64,6 @@ static void	key_right(t_pos *pos)
 
 int			key_hook(int keycode, t_pos *pos)
 {
-	printf("x = %f y = %f\n", pos->pos_x, pos->pos_y);
 	if (keycode == UP)
 		key_up(pos);
 	else if (keycode == DOWN)

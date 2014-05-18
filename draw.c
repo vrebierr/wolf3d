@@ -46,7 +46,7 @@ void	draw(t_dda *dda, t_mlx *mlx, int x)
 		end = HEIGHT - 1;
 	while (start < end)
 	{
-		pixel_put_to_image(mlx, x, start, 80);
+		pixel_put_to_image(mlx, x, start, 255);
 		start++;
 	}
 }

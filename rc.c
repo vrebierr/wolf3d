@@ -102,4 +102,6 @@ void			raycasting(t_pos *pos)
 		draw(dda, pos->mlx, x);
 		x++;
 	}
+	free(dda);
+	dda = NULL;
 }
