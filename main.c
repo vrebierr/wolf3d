@@ -71,14 +71,19 @@ void	show_usage(void)
 	exit(1);
 }
 
-int		expose_hook(t_mlx *mlx)
+int		loop_hook(t_pos *pos)
 {
-	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
+	if (pos->mlx->img)
+		mlx_destroy_image(pos->mlx->mlx, pos->mlx->img);
+	raycasting(pos);
+	mlx_put_image_to_window(pos->mlx->mlx, pos->mlx->win, pos->mlx->img, 0, 0);
 	return (0);
 }
 
 int		key_hook(int keycode, t_pos *pos)
 {
+	printf("dir_x = %f dir_y = %f plane_x = %f plane_y = %f\n", pos->dir_x,
+		   pos->dir_y, pos->plane_x, pos->plane_y);
 	if (keycode == UP)
 		key_up(pos);
 	else if (keycode == DOWN)
@@ -89,7 +94,7 @@ int		key_hook(int keycode, t_pos *pos)
 		key_right(pos);
 	else if (keycode == ESCAPE)
 		exit(0);
-	return (1);
+	return (0);
 }
 
 int		main(int argc, char **argv)
@@ -101,9 +106,8 @@ int		main(int argc, char **argv)
 		show_usage();
 	map = get_map(argv[1]);
 	pos = pos_init(map);
-	mlx_expose_hook(pos->mlx->win, expose_hook, pos->mlx);
+	mlx_loop_hook(pos->mlx, loop_hook, pos);
 	mlx_key_hook(pos->mlx->win, key_hook, pos);
-	raycasting(pos);
 	mlx_loop(pos->mlx->mlx);
 	return (0);
 }

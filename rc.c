@@ -21,7 +21,13 @@ t_mlx			*ft_mlx_init(void)
 	{
 		mlx->mlx = mlx_init();
 		mlx->win = mlx_new_window(mlx->mlx, WIDTH, HEIGHT, "Wolf3d");
-		mlx->img = mlx_new_image(mlx->mlx, WIDTH, HEIGHT);
+		mlx->img = (t_img *)malloc(sizeof(t_img));
+		if (mlx->win != NULL)
+		{
+			mlx->img->img = mlx_new_image(mlx->mlx, WIDTH, HEIGHT);
+			mlx->img->data = mlx_get_data_addr(mlx->img->img, &mlx->img->bpp,
+										&mlx->img->sizeline, &mlx->img->endian);
+		}
 	}
 	return (mlx);
 }

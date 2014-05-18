@@ -14,7 +14,22 @@
 
 void	pixel_put_to_image(t_mlx *mlx, int x, int y, int color)
 {
-	mlx_pixel_put(mlx->mlx, mlx->win, x, y, color);
+	t_img	*img;
+
+	img = mlx->img;
+
+	if (!mlx->img->endian)
+	{
+		img->data[(y * img->sizeline) + x * (img->bpp / 8)] = color;
+		img->data[(y * img->sizeline) + x * (img->bpp / 8) + 1] = color;
+		img->data[(y * img->sizeline) + x * (img->bpp / 8) + 2] = color;
+	}
+	else
+	{
+		img->data[(y * img->sizeline) + x * (img->bpp / 8)] = color;
+		img->data[(y * img->sizeline) + x * (img->bpp / 8) + 1] = color;
+		img->data[(y * img->sizeline) + x * (img->bpp / 8) + 2] = color;
+	}
 }
 
 void	draw(t_dda *dda, t_mlx *mlx, int x)
@@ -32,8 +47,7 @@ void	draw(t_dda *dda, t_mlx *mlx, int x)
 		end = HEIGHT - 1;
 	while (start < end)
 	{
-		pixel_put_to_image(mlx, x, start, 100);
+		pixel_put_to_image(mlx, x, start, 80);
 		start++;
 	}
-	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
 }

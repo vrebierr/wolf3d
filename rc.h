@@ -26,11 +26,20 @@
 # include <math.h>
 # include <libft.h>
 
+typedef struct	s_img
+{
+	void		*img;
+	char		*data;
+	int			bpp;
+	int			sizeline;
+	int			endian;
+}				t_img;
+
 typedef struct	s_mlx
 {
 	void		*mlx;
 	void		*win;
-	void		*img;
+	t_img		*img;
 }				t_mlx;
 
 typedef struct	s_ray
