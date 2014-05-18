@@ -37,7 +37,7 @@ void	draw(t_dda *dda, t_mlx *mlx, int x)
 	int		start;
 	int		end;
 
-	height = abs((int)HEIGHT / (int)dda->perp_wall_dist);
+	height = abs(HEIGHT / dda->perp_wall_dist);
 	start = -height / 2 + HEIGHT / 2;
 	if (start < 0)
 		start = 0;

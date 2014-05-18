@@ -56,7 +56,7 @@ static t_dda	*dda_init(t_ray *ray)
 	return (dda);
 }
 
-static void		perform(t_dda *dda, t_pos *pos, t_ray *ray)
+static void		dist_to_wall(t_dda *dda, t_pos *pos, t_ray *ray)
 {
 	while (dda->hit == 0)
 	{
@@ -81,8 +81,6 @@ static void		perform(t_dda *dda, t_pos *pos, t_ray *ray)
 	else
 		dda->perp_wall_dist = fabs((dda->map_y - ray->pos_y
 									+ (1 - dda->step_y) / 2) / ray->dir_y);
-	if (dda->perp_wall_dist < 0.05)
-		dda->perp_wall_dist = 0.05;
 }
 
 void			raycasting(t_pos *pos)
@@ -100,7 +98,7 @@ void			raycasting(t_pos *pos)
 		ray.dir_x = pos->dir_x + pos->plane_x * ray.camera_x;
 		ray.dir_y = pos->dir_y + pos->plane_y * ray.camera_x;
 		dda = dda_init(&ray);
-		perform(dda, pos, &ray);
+		dist_to_wall(dda, pos, &ray);
 		draw(dda, pos->mlx, x);
 		x++;
 	}
