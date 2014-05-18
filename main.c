@@ -71,13 +71,13 @@ void	show_usage(void)
 	exit(1);
 }
 
-int		expose_hook(void *param)
+int		expose_hook(t_mlx *mlx)
 {
-	(void)param;
+	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
 	return (0);
 }
 
-int		key_hook(int keycode, void *pos)
+int		key_hook(int keycode, t_pos *pos)
 {
 	if (keycode == UP)
 		key_up(pos);
@@ -89,24 +89,21 @@ int		key_hook(int keycode, void *pos)
 		key_right(pos);
 	else if (keycode == ESCAPE)
 		exit(0);
-	return (0);
+	return (1);
 }
 
 int		main(int argc, char **argv)
 {
-	t_mlx	mlx;
 	t_pos	*pos;
 	char	**map;
 
 	if (argc != 2)
 		show_usage();
 	map = get_map(argv[1]);
-	mlx.mlx = mlx_init();
-	mlx.win = mlx_new_window(mlx.mlx, WIDTH, HEIGHT, "Wolf3d");
 	pos = pos_init(map);
-	mlx_expose_hook(mlx.win, expose_hook, &mlx);
-	mlx_key_hook(mlx.win, key_hook, &pos);
-	raycasting(pos, &mlx);
-	mlx_loop(mlx.mlx);
+	mlx_expose_hook(pos->mlx->win, expose_hook, pos->mlx);
+	mlx_key_hook(pos->mlx->win, key_hook, pos);
+	raycasting(pos);
+	mlx_loop(pos->mlx->mlx);
 	return (0);
 }

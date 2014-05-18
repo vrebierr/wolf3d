@@ -30,6 +30,7 @@ typedef struct	s_mlx
 {
 	void		*mlx;
 	void		*win;
+	void		*img;
 }				t_mlx;
 
 typedef struct	s_ray
@@ -50,6 +51,7 @@ typedef struct	s_pos
 	double		dir_y;
 	double		plane_x;
 	double		plane_y;
+	t_mlx		*mlx;
 }				t_pos;
 
 typedef struct	s_dda
@@ -68,7 +70,7 @@ typedef struct	s_dda
 }				t_dda;
 
 t_pos			*pos_init(char **map);
-void			raycasting(t_pos *pos, t_mlx *mlx);
+void			raycasting(t_pos *pos);
 void			draw(t_dda *dda, t_mlx *mlx, int x);
 void			key_up(t_pos *pos);
 void			key_down(t_pos *pos);

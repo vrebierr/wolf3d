@@ -12,6 +12,20 @@
 
 #include "rc.h"
 
+t_mlx			*ft_mlx_init(void)
+{
+	t_mlx	*mlx;
+
+	mlx = (t_mlx *)malloc(sizeof(t_mlx));
+	if (mlx != NULL)
+	{
+		mlx->mlx = mlx_init();
+		mlx->win = mlx_new_window(mlx->mlx, WIDTH, HEIGHT, "Wolf3d");
+		mlx->img = mlx_new_image(mlx->mlx, WIDTH, HEIGHT);
+	}
+	return (mlx);
+}
+
 t_pos			*pos_init(char **map)
 {
 	t_pos	*pos;
@@ -23,9 +37,10 @@ t_pos			*pos_init(char **map)
 		pos->pos_x = 22;
 		pos->pos_y = 12;
 		pos->dir_x = -1;
-		pos->dir_y = 0;
-		pos->plane_x = 0;
+		pos->dir_y = 0.2;
+		pos->plane_x = 0.50;
 		pos->plane_y = 0.66;
+		pos->mlx = ft_mlx_init();
 	}
 	return (pos);
 }
@@ -62,8 +77,8 @@ static t_dda	*dda_init(t_ray *ray)
 	dda = (t_dda *)malloc(sizeof(t_dda));
 	if (dda != NULL)
 	{
-		dda->map_x = ((int)ray->pos_x);
-		dda->map_y = ((int)ray->pos_y);
+		dda->map_x = (int)ray->pos_x;
+		dda->map_y = (int)ray->pos_y;
 		dda->delta_dist_x = sqrt(1 + (ray->dir_y * ray->dir_y)
 								/ (ray->dir_x * ray->dir_x));
 		dda->delta_dist_y = sqrt(1 + (ray->dir_x * ray->dir_x)
@@ -101,7 +116,7 @@ static void		perform(t_dda *dda, t_pos *pos, t_ray *ray)
 									+ (1 - dda->step_y) / 2) / ray->dir_y);
 }
 
-void			raycasting(t_pos *pos, t_mlx *mlx)
+void			raycasting(t_pos *pos)
 {
 	int		x;
 	t_ray	ray;
@@ -110,14 +125,14 @@ void			raycasting(t_pos *pos, t_mlx *mlx)
 	x = 0;
 	while (x < WIDTH)
 	{
-		ray.camera_x = 2 * x / (double)WIDTH;
+		ray.camera_x = 2 * x / (double)WIDTH - 1;
 		ray.pos_x = pos->pos_x;
 		ray.pos_y = pos->pos_y;
 		ray.dir_x = pos->dir_x + pos->plane_x * ray.camera_x;
 		ray.dir_y = pos->dir_y + pos->plane_y * ray.camera_x;
 		dda = dda_init(&ray);
 		perform(dda, pos, &ray);
-		draw(dda, mlx, x);
+		draw(dda, pos->mlx, x);
 		x++;
 	}
 }
