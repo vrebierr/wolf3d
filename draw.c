@@ -21,14 +21,14 @@ void	pixel_put_to_image(t_mlx *mlx, int x, int y, int color)
 	if (!mlx->img->endian)
 	{
 		img->data[(y * img->sizeline) + x * (img->bpp / 8)] = color;
-		img->data[(y * img->sizeline) + x * (img->bpp / 8) + 1] = color;
-		img->data[(y * img->sizeline) + x * (img->bpp / 8) + 2] = color;
+		img->data[(y * img->sizeline) + x * (img->bpp / 8) + 1] = 0;
+		img->data[(y * img->sizeline) + x * (img->bpp / 8) + 2] = 0;
 	}
 	else
 	{
 		img->data[(y * img->sizeline) + x * (img->bpp / 8)] = color;
-		img->data[(y * img->sizeline) + x * (img->bpp / 8) + 1] = color;
-		img->data[(y * img->sizeline) + x * (img->bpp / 8) + 2] = color;
+		img->data[(y * img->sizeline) + x * (img->bpp / 8) + 1] = 0;
+		img->data[(y * img->sizeline) + x * (img->bpp / 8) + 2] = 0;
 	}
 }
 

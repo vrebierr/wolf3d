@@ -22,11 +22,11 @@ t_mlx			*ft_mlx_init(void)
 		mlx->mlx = mlx_init();
 		mlx->win = mlx_new_window(mlx->mlx, WIDTH, HEIGHT, "Wolf3d");
 		mlx->img = (t_img *)malloc(sizeof(t_img));
-		if (mlx->win != NULL)
+		if (mlx->img != NULL)
 		{
 			mlx->img->img = mlx_new_image(mlx->mlx, WIDTH, HEIGHT);
-			mlx->img->data = mlx_get_data_addr(mlx->img->img, &mlx->img->bpp,
-										&mlx->img->sizeline, &mlx->img->endian);
+			mlx->img->data = mlx_get_data_addr(mlx->img->img, &(mlx->img->bpp),
+									&(mlx->img->sizeline), &(mlx->img->endian));
 		}
 	}
 	return (mlx);
@@ -120,6 +120,8 @@ static void		perform(t_dda *dda, t_pos *pos, t_ray *ray)
 	else
 		dda->perp_wall_dist = fabs((dda->map_y - ray->pos_y
 									+ (1 - dda->step_y) / 2) / ray->dir_y);
+	if (dda->perp_wall_dist < 0.05)
+		dda->perp_wall_dist = 0.05;
 }
 
 void			raycasting(t_pos *pos)
@@ -131,6 +133,7 @@ void			raycasting(t_pos *pos)
 	x = 0;
 	while (x < WIDTH)
 	{
+		ft_putnbr(x);
 		ray.camera_x = 2 * x / (double)WIDTH - 1;
 		ray.pos_x = pos->pos_x;
 		ray.pos_y = pos->pos_y;

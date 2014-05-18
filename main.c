@@ -73,17 +73,19 @@ void	show_usage(void)
 
 int		loop_hook(t_pos *pos)
 {
-	if (pos->mlx->img)
-		mlx_destroy_image(pos->mlx->mlx, pos->mlx->img);
+	if (pos->mlx->img->img)
+	{
+		mlx_destroy_image(pos->mlx->mlx, pos->mlx->img->img);
+		pos->mlx->img->img = mlx_new_image(pos->mlx->mlx, WIDTH, HEIGHT);
+	}
 	raycasting(pos);
-	mlx_put_image_to_window(pos->mlx->mlx, pos->mlx->win, pos->mlx->img, 0, 0);
+	mlx_put_image_to_window(pos->mlx->mlx, pos->mlx->win,
+							pos->mlx->img->img, 0, 0);
 	return (0);
 }
 
 int		key_hook(int keycode, t_pos *pos)
 {
-	printf("dir_x = %f dir_y = %f plane_x = %f plane_y = %f\n", pos->dir_x,
-		   pos->dir_y, pos->plane_x, pos->plane_y);
 	if (keycode == UP)
 		key_up(pos);
 	else if (keycode == DOWN)
@@ -106,7 +108,7 @@ int		main(int argc, char **argv)
 		show_usage();
 	map = get_map(argv[1]);
 	pos = pos_init(map);
-	mlx_loop_hook(pos->mlx, loop_hook, pos);
+	mlx_loop_hook(pos->mlx->mlx, loop_hook, pos);
 	mlx_key_hook(pos->mlx->win, key_hook, pos);
 	mlx_loop(pos->mlx->mlx);
 	return (0);
